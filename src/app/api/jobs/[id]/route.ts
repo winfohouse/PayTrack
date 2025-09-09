@@ -90,8 +90,7 @@ export async function PUT(
 
 // Delete a job
 export async function DELETE(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest,
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -99,7 +98,7 @@ export async function DELETE(
   }
 
   try {
-    const { id } = params;
+    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
 
     const job = await prisma.job.findUnique({
       where: { id },
