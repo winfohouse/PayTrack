@@ -22,7 +22,6 @@ import {
 import { Briefcase } from 'lucide-react';
 import { JobFromApi, ToWorkerRequestResponce } from '@/types/Responce';
 import JobCard from '@/components/jobCard';
-import { User, WorkerRequest } from '@prisma/client';
 
 function EmptyState({ title, description, icon }: { title: string, description: string, icon: React.ReactNode }) {
   return (

@@ -2,7 +2,7 @@
 
 import { ReactNode, useState } from 'react';
 import Link from 'next/link';
-import { Home, Briefcase, Users, DollarSign, Bell, LogOut, Menu, X } from 'lucide-react';
+import { Home, Briefcase, Users, Bell, LogOut, Menu, X } from 'lucide-react';
 import { useSession, signOut } from 'next-auth/react';
 import { defaultAvater } from '@/lib/utils';
 

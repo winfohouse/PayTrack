@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -42,6 +41,7 @@ export default function RegisterPage() {
       }
     } catch (err) {
       setError('Something went wrong');
+      console.error('Registration error:', err);
     }
   };
 
