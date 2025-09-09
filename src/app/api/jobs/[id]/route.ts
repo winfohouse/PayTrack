@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient, JobStatus } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
@@ -7,8 +7,7 @@ const prisma = new PrismaClient();
 
 // Get a single job by ID
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -16,7 +15,7 @@ export async function GET(
   }
 
   try {
-    const { id } = params;
+    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
 
     const job = await prisma.job.findUnique({
       where: { id },
