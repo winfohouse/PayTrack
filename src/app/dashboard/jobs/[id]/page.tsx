@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
@@ -9,9 +8,12 @@ import { Input } from '@/components/ui/input';
 import { Payment } from '@prisma/client';
 import { humanTime } from '@/lib/time'
 import { JobFromApi } from '@/types/Responce';
+import { useParams } from 'next/navigation';
 
-export default function JobDetailPage({ params }: { params: { id: string } }) {
-  const JobId = params.id;
+export default function JobDetailPage() {
+  const { id } = useParams<{ id: string }>();
+  const JobId = id;
+  
   const { data: session } = useSession();
   const [job, setJob] = useState<JobFromApi | null>(null);
   const [loading, setLoading] = useState(true);
