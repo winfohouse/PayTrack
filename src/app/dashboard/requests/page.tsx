@@ -104,7 +104,7 @@ export default function RequestsPage() {
           <CardContent className='p-0'>
             {requests.sent.length > 0 ? (
               <ul className='divide-y'>
-                {requests.sent.map((req: any) => (
+                {requests.sent.map((req) => (
                   <li key={req.id} className='flex items-center justify-between p-4'>
                     <div>
                       <p className='font-semibold'>{req.toUser.name}</p>
