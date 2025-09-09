@@ -8,11 +8,12 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Payment } from '@prisma/client';
 import { humanTime } from '@/lib/time'
+import { JobFromApi } from '@/types/Responce';
 
 export default function JobDetailPage({ params }: { params: { id: string } }) {
   const JobId = params.id;
   const { data: session } = useSession();
-  const [job, setJob] = useState<any>(null);
+  const [job, setJob] = useState<JobFromApi | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [amount, setAmount] = useState(1000);

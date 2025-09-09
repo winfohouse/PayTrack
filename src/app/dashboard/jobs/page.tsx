@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,13 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import Link from 'next/link';
 import { Briefcase } from 'lucide-react';
-import { Job, User, Payment } from '@prisma/client';
-import { JobFromApi } from '@/types/job';
-import { humanTime } from '@/lib/time';
+import { JobFromApi, ToWorkerRequestResponce } from '@/types/Responce';
 import JobCard from '@/components/jobCard';
+import { User, WorkerRequest } from '@prisma/client';
 
 function EmptyState({ title, description, icon }: { title: string, description: string, icon: React.ReactNode }) {
   return (
@@ -40,7 +36,7 @@ function EmptyState({ title, description, icon }: { title: string, description: 
   );
 }
 
-function CreateJobDialog({ workers, onJobCreated }: { workers: any[], onJobCreated: () => void }) {
+function CreateJobDialog({ workers, onJobCreated }: { workers: ToWorkerRequestResponce | [], onJobCreated: () => void }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [agreedPrice, setAgreedPrice] = useState('5000');
@@ -62,7 +58,7 @@ function CreateJobDialog({ workers, onJobCreated }: { workers: any[], onJobCreat
   };
 
   return (
-     <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button className="bg-blue-600 hover:bg-blue-700 text-white">Create New Job</Button>
       </DialogTrigger>
@@ -131,7 +127,7 @@ function CreateJobDialog({ workers, onJobCreated }: { workers: any[], onJobCreat
 
 export default function JobsPage() {
   const [jobs, setJobs] = useState<{ asCompany: JobFromApi[], asWorker: JobFromApi[] }>({ asCompany: [], asWorker: [] });
-  const [workers, setWorkers] = useState([]);
+  const [workers, setWorkers] = useState<ToWorkerRequestResponce | []>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchJobs = async () => {
@@ -147,8 +143,8 @@ export default function JobsPage() {
     const res = await fetch('/api/worker-requests');
     const data = await res.json();
     if (data.sentRequests) {
-      const approvedWorkers = data.sentRequests.filter((req: any) => req.status === 'APPROVED');
-      setWorkers(approvedWorkers);
+      const approvedWorkers = (data.sentRequests as ToWorkerRequestResponce).filter((req) => req.status === 'APPROVED');
+      setWorkers(approvedWorkers as ToWorkerRequestResponce);
     }
   };
 

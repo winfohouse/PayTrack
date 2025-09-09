@@ -1,10 +1,9 @@
 import bcrypt from 'bcrypt'
 import { AuthOptions, SessionStrategy } from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient} from "@prisma/client"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { JWT } from "next-auth/jwt"
 
 const prisma = new PrismaClient()
 
@@ -56,7 +55,7 @@ export const authOptions: AuthOptions = {
       }
       return token
     },
-    async session({ session, token }: { session: any; token: JWT }) {
+    async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id
       }

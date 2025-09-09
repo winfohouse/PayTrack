@@ -91,7 +91,7 @@ export async function GET(request: Request) {
     
 
 
-    return NextResponse.json({ receivedRequests, sentRequests });
+    return NextResponse.json({ receivedRequests , sentRequests });
   } catch (error) {
     console.error("WORKER_REQUEST_GET_ERROR", error);
     return new NextResponse("Internal Server Error", { status: 500 });

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Bell } from 'lucide-react';
+import { FromWorkerRequestResponce, ToWorkerRequestResponce } from '@/types/Responce';
 
 function EmptyState({ title, description, icon }: { title: string, description: string, icon: React.ReactNode }) {
   return (
@@ -19,7 +20,7 @@ function EmptyState({ title, description, icon }: { title: string, description: 
 }
 
 export default function RequestsPage() {
-  const [requests, setRequests] = useState({ received: [], sent: [] });
+  const [requests, setRequests] = useState<{ received: FromWorkerRequestResponce | [], sent: ToWorkerRequestResponce | [] }>({ received: [], sent: [] });
   const [loading, setLoading] = useState(true);
 
   const fetchRequests = async () => {
@@ -62,7 +63,7 @@ export default function RequestsPage() {
           <CardContent className='p-0'>
             {requests.received.length > 0 ? (
               <ul className='divide-y'>
-                {requests.received.map((req: any) => (
+                {requests.received.map((req) => (
                   <li key={req.id} className='flex items-center justify-between p-4'>
                     <div>
                       <p className='font-semibold'>{req.fromUser.name}</p>
@@ -87,11 +88,11 @@ export default function RequestsPage() {
                 ))}
               </ul>
             ) : (
-                <EmptyState
-                    title='No received requests'
-                    description='When a user sends you a worker request, it will appear here.'
-                    icon={<Bell className='h-6 w-6 text-gray-500' />}
-                />
+              <EmptyState
+                title='No received requests'
+                description='When a user sends you a worker request, it will appear here.'
+                icon={<Bell className='h-6 w-6 text-gray-500' />}
+              />
             )}
           </CardContent>
         </Card>
@@ -116,11 +117,11 @@ export default function RequestsPage() {
                 ))}
               </ul>
             ) : (
-                <EmptyState
-                    title='No sent requests'
-                    description='Your sent worker requests will appear here.'
-                    icon={<Bell className='h-6 w-6 text-gray-500' />}
-                />
+              <EmptyState
+                title='No sent requests'
+                description='Your sent worker requests will appear here.'
+                icon={<Bell className='h-6 w-6 text-gray-500' />}
+              />
             )}
           </CardContent>
         </Card>

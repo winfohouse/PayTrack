@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Briefcase } from 'lucide-react';
-import { JobFromApi } from '@/types/job';
+import { JobFromApi } from '@/types/Responce';
 import { humanTime } from '@/lib/time';
 
 interface JobCardProps {
