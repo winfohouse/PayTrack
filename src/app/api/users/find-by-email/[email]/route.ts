@@ -1,21 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  request: Request,
-  { params }: { params: { email: string } }
-) {
+export async function GET(request: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
   try {
-    const { email } = params;
+    const email = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
     if (!email) {
       return new NextResponse("Email is required", { status: 400 });
     }

@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient, RequestStatus } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
@@ -6,8 +6,7 @@ import { authOptions } from "@/lib/auth";
 const prisma = new PrismaClient();
 
 export async function PUT(
-  request: Request,
-  { params }: { params: { id: string } }
+  request: NextRequest
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -15,7 +14,7 @@ export async function PUT(
   }
 
   try {
-    const { id } = params;
+    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
     const { status } = (await request.json()) as { status: RequestStatus };
 
     if (!status || !["APPROVED", "REJECTED"].includes(status)) {
