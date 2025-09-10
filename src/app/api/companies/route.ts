@@ -47,7 +47,7 @@ export async function GET() {
     });
 
     // Map results into clean structure
-    const result = approvedRequests.map((req) => ({
+    const result = approvedRequests.map((req: typeof approvedRequests[0] ) => ({
       requestId: req.id,
       company: {
         id: req.fromUser.id,
