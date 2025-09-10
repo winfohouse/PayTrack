@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { PrismaClient, JobStatus } from "@prisma/client";
+import { JobStatus, PrismaClient } from "@prisma/client";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 
@@ -7,7 +7,8 @@ const prisma = new PrismaClient();
 
 // Get a single job by ID
 export async function GET(
-  request: NextRequest
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // Next.js 15 async params
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -15,7 +16,8 @@ export async function GET(
   }
 
   try {
-    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
+    // Await params for Next.js 15
+    const { id } = await params;
 
     const job = await prisma.job.findUnique({
       where: { id },
@@ -49,6 +51,7 @@ export async function GET(
 // Update a job
 export async function PUT(
   request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // Next.js 15 async params
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -56,7 +59,8 @@ export async function PUT(
   }
 
   try {
-    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
+    // Await params for Next.js 15
+    const { id } = await params;
     const { status } = (await request.json()) as { status: JobStatus };
 
     if (!status) {
@@ -91,6 +95,7 @@ export async function PUT(
 // Delete a job
 export async function DELETE(
   request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // Next.js 15 async params
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -98,7 +103,8 @@ export async function DELETE(
   }
 
   try {
-    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
+    // Await params for Next.js 15
+    const { id } = await params;
 
     const job = await prisma.job.findUnique({
       where: { id },

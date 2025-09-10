@@ -7,6 +7,7 @@ const prisma = new PrismaClient();
 
 export async function PUT(
   request: NextRequest
+  , { params }: { params: Promise<{ id: string }> } // Next.js 15 async params
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -14,7 +15,7 @@ export async function PUT(
   }
 
   try {
-    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
+    const { id } = await params;
     const { status } = (await request.json()) as { status: RequestStatus };
 
     if (!status || !["APPROVED", "REJECTED"].includes(status)) {

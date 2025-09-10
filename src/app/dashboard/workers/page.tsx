@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useSession } from "next-auth/react";
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Mail, Briefcase } from 'lucide-react';
-import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 import { defaultAvater } from '@/lib/utils';
+import { Briefcase, Mail, Users } from 'lucide-react';
+import { useSession } from "next-auth/react";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface WorkerJob {
   id: string;
@@ -187,7 +187,7 @@ export default function WorkersPage() {
                     worker.jobsAsWorker
                       .sort((a, b) => a.status.localeCompare(b.status)) // sort by status
                       .map((job) => (
-                        <Link href={"/dashboard/jobs/"+job.id} key={job.id} className='flex justify-between items-center p-2 rounded-md hover:bg-gray-50'>
+                        <Link href={"/dashboard/jobs/" + job.id} key={job.id} className='flex justify-between items-center p-2 rounded-md hover:bg-gray-50'>
                           <div className='flex flex-col'>
                             <span className='font-medium'>{job.title}</span>
                             <span className='text-xs text-gray-500'>

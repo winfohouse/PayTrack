@@ -8,6 +8,8 @@ const prisma = new PrismaClient();
 // Confirm a payment
 export async function PUT(
   request: NextRequest,
+  { params }: { params: Promise<{ id: string }> } // Next.js 15 async params
+
 ) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -15,8 +17,7 @@ export async function PUT(
   }
 
   try {
-    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
-
+    const { id } = await params;
     const payment = await prisma.payment.findUnique({
       where: { id },
     });
@@ -43,15 +44,14 @@ export async function PUT(
 }
 
 // Delete a payment
-export async function DELETE(request: NextRequest) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
     return new NextResponse("Unauthorized", { status: 401 });
   }
 
   try {
-    const id = request.nextUrl.pathname.match(/\/jobs\/([^/]+)/)?.[1];
-
+    const { id } = await params;
     const payment = await prisma.payment.findUnique({
       where: { id },
     });
